@@ -1,0 +1,30 @@
+{
+    "name": "custom-code",
+    "version": "1.0.0",
+    "description": "Build your script for custom code control and action in Yeeflow",
+    "private": true,
+    "dependencies": {
+        "react": "15.6.2",
+        "react-dom": "15.6.2"
+    },
+    "devDependencies": {
+        "@types/react": "15.6.2",
+        "@types/react-dom": "0.14.23",
+        "ts-loader": "^4.1.0",
+        "typescript": "^2.9.2",
+        "webpack": "^4.1.1",
+        "webpack-cli": "^3.2.3"
+    },
+    "scripts": {
+        "compile": "webpack"
+    },
+    "ci": {
+        "version": "8"
+    },
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "author": "",
+    "license": "MIT"
+}
