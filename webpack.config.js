@@ -11,7 +11,9 @@ module.exports = {
         dropdownSample: "./src/dropdownSample.tsx",
         loadThird3D: "./src/loadThird3D.tsx",
         loadThirdVideo: "./src/loadThirdVideo.tsx",
-        requestSample: "./src/requestSample.tsx"
+        requestSample: "./src/requestSample.tsx",
+        passwordInput: "./src/passwordInput.tsx",
+        qrCodeSample: "./src/qrCodeSample.tsx"
     },
     devtool: "none",
     output: {

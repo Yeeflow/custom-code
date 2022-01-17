@@ -1,5 +1,6 @@
 import * as React from "react";
 import { MODULE_BIZCHARTS, MODULE_COMMON, MODULE_MOMENT } from "./constants";
+import * as ReactDOM from 'react-dom';
 
 const data = [
     { genre: 'Sports', sold: 275 },
@@ -32,6 +33,8 @@ class ChartSample extends React.Component<ChartSampleProps, ChartSampleStates> {
 
 
     render() {
+        // const ReactDOM = require('react-dom');
+        console.log("ReactDOM", ReactDOM);
         const { context } = this.props;
         const bizcharts = context.modules[MODULE_BIZCHARTS];
         const common = context.modules[MODULE_COMMON]
