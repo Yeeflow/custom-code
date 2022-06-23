@@ -13,7 +13,9 @@ module.exports = {
         loadThirdVideo: "./src/loadThirdVideo.tsx",
         requestSample: "./src/requestSample.tsx",
         passwordInput: "./src/passwordInput.tsx",
-        qrCodeSample: "./src/qrCodeSample.tsx"
+        qrCodeSample: "./src/qrCodeSample.tsx",
+        formatList: "./src/formatList.tsx",
+        displayUsers: "./src/displayUsers.tsx"
     },
     devtool: "none",
     output: {
