@@ -5,7 +5,8 @@
     "private": true,
     "dependencies": {
         "react": "15.6.2",
-        "react-dom": "15.6.2"
+        "react-dom": "15.6.2",
+        "antd": "^2.13.12"
     },
     "devDependencies": {
         "@types/react": "15.6.2",

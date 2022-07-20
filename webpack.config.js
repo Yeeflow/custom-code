@@ -15,7 +15,8 @@ module.exports = {
         passwordInput: "./src/passwordInput.tsx",
         qrCodeSample: "./src/qrCodeSample.tsx",
         formatList: "./src/formatList.tsx",
-        displayUsers: "./src/displayUsers.tsx"
+        displayUsers: "./src/displayUsers.tsx",
+        filterSample: "./src/filterSample.tsx",
     },
     devtool: "none",
     output: {
