@@ -4,17 +4,21 @@
 
 
 import { MODULE_COMMON } from "./constants";
+import { buildTd, buildTh } from "./util";
+
+
+const DEF_TABLE: ColumnDef[] = [
+    { id: "field_1", label: "Name" },
+    { id: "field_2", label: "Number", type: "number" },
+    { id: "field_3", label: "Desc" }
+]
 
 export class CodeInApplication implements CodeInComp {
     execute(context: CodeInContext, fieldsValues: any) {
-        var table = "<style>table.my, .my th, .my td {border:1px solid red; font-size: 16px}</style><table class='my'><tr><th>Name</th><th>Number</th><th>Desc</th></tr>";
+        var table = "<style>table.my, .my th, .my td {border:1px solid red; font-size: 16px}</style><table class='my'>" + buildTh(context, DEF_TABLE);
 
         var l = fieldsValues["list"];
-        if (l && l.length > 0) {
-            table += l.map(d=>{
-                return `<tr><td>${d.field_1}</td><td>${d.field_2}</td><td>${d.field_3}</td></tr>`;
-            }).join("");
-        }
+        table += buildTd(context, l, DEF_TABLE);
         context.setFieldValue("formated", table + "</table>");
     }
 
