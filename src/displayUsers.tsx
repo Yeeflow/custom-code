@@ -60,9 +60,9 @@ class ChartSample extends React.Component<ChartSampleProps, ChartSampleStates> {
         const { data } = this.state;
         return <AkSpin spinning={!data}>
             <table>
-                <tr><th>Photo</th><th>Name</th><th>Email</th><th>Manager</th></tr>
-                {data && data.map(d=>{
-                    return <tr><td><img width={50} height={50} src={d.Photo}></img></td><td>{d.Name}</td><td>{d.Email}</td><td>{d.LineManager}</td></tr>
+                <tr key="header"><th>Photo</th><th>Name</th><th>Email</th><th>Manager</th></tr>
+                {data && data.map((d,i)=>{
+                    return <tr key={i}><td><img width={50} height={50} src={d.Photo}></img></td><td>{d.Name}</td><td>{d.Email}</td><td>{d.LineManager}</td></tr>
                 })}
             </table>
         </AkSpin>;

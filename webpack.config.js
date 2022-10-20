@@ -17,6 +17,7 @@ module.exports = {
         formatList: "./src/formatList.tsx",
         displayUsers: "./src/displayUsers.tsx",
         filterSample: "./src/filterSample.tsx",
+        addSeqNoToSubList: "./src/addSeqNoToSubList.tsx"
     },
     devtool: "none",
     output: {

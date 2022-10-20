@@ -12,17 +12,26 @@ interface CodeInComp {
     /**
      * Required fields will be passed by fieldsValues.  Re-render will be triggered if any changes to the registered fields.
      */
-    requiredFields?: () => string[];
+    requiredFields?: (params: CodeInParams) => string[];
 
     /**
      * Required Modules will be injected via modules in CodeInContext
      */
-    requiredModules?: () => string[];
+    requiredModules?: (params: CodeInParams) => string[];
 
     /**
      * Event to notify custom page to calculate height for Page Widget with auto height setting
      */
     onLoaded?: () => void;
+
+    /**
+     * return description of the custom code
+     */
+    description?: () => string;
+    /**
+     * Define the input parameters for the custom code component.
+     */
+    inputParameters?: () => InputParameter[];
 }
 
 interface CodeInContext {
@@ -33,6 +42,7 @@ interface CodeInContext {
     /** Set field value of a Form or List Item */
     setFieldValue: (field: string, value: any) => void;
     formContext?: AkFCFormContext;
+    params: CodeInParams;
 }
 
 interface AkFCFormContext {
@@ -92,4 +102,17 @@ interface Request {
     del(url: string, data?: any, emptyData?: any);
     /** HTTP PUT Method  */
     put(url: string, data?: any, emptyData?: any);
+}
+
+interface InputParameter {
+    id: string;
+    type?: "string" | "number";
+    desc?: string;
+}
+
+/**
+ * An object holds the key value pair of input parameters.
+ */
+interface CodeInParams {
+    [key: string]: any;
 }
