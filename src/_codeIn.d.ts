@@ -116,3 +116,12 @@ interface InputParameter {
 interface CodeInParams {
     [key: string]: any;
 }
+
+
+interface FilterObj {
+    WhereName?: string;
+    Type?: number;
+    Value?: string; //must be string. use JSON.stringfy to convert array
+    Pre?: "and" | "or"; //relation to previous condition
+    Child?: FilterObj[]; //grouped conditions
+}

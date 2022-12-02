@@ -1,16 +1,7 @@
 import * as React from "react";
-import { MODULE_BIZCHARTS, MODULE_COMMON, MODULE_MOMENT } from "./constants";
+import { FILTER_VAR_PREFIX, MODULE_BIZCHARTS, MODULE_COMMON, MODULE_MOMENT } from "./constants";
 import * as ReactDOM from 'react-dom';
 
-const FILTER_VAR_PREFIX = "__filter_";
-
-interface FilterObj {
-    WhereName?: string;
-    Type?: number;
-    Value?: string; //must be string. use JSON.stringfy to convert array
-    Pre?: "and" | "or"; //relation to previous condition
-    Child?: FilterObj[]; //grouped conditions
-}
 
 interface FilterSampleProps {
     context: CodeInContext;

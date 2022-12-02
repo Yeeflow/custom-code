@@ -17,7 +17,8 @@ module.exports = {
         formatList: "./src/formatList.tsx",
         displayUsers: "./src/displayUsers.tsx",
         filterSample: "./src/filterSample.tsx",
-        addSeqNoToSubList: "./src/addSeqNoToSubList.tsx"
+        addSeqNoToSubList: "./src/addSeqNoToSubList.tsx",
+        modalDialogIframe: "./src/modalDialogIframe.tsx"
     },
     devtool: "none",
     output: {

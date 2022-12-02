@@ -16,7 +16,8 @@
         "webpack-cli": "^3.2.3"
     },
     "scripts": {
-        "compile": "webpack"
+        "compile": "webpack",
+        "start": "webpack"
     },
     "ci": {
         "version": "8"
