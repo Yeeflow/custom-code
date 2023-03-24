@@ -4,7 +4,7 @@ const ROOT_PATH = path.resolve(__dirname);
 const BUILD_PATH = path.resolve(ROOT_PATH, 'dist');
 
 module.exports = {
-    mode:"production",
+    mode:"production", //"production", "development"
     entry: {
         codeInSample: './src/codeInSample.tsx',
         codeInExecute: './src/codeInExecute.tsx',
@@ -18,7 +18,8 @@ module.exports = {
         displayUsers: "./src/displayUsers.tsx",
         filterSample: "./src/filterSample.tsx",
         addSeqNoToSubList: "./src/addSeqNoToSubList.tsx",
-        modalDialogIframe: "./src/modalDialogIframe.tsx"
+        modalDialogIframe: "./src/modalDialogIframe.tsx",
+        chatGPT: "./src/chatgpt.tsx"
     },
     devtool: "none",
     output: {
