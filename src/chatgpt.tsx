@@ -106,8 +106,7 @@ class ChatGPT extends React.Component<ChatGPTProps, ChatGPTStates> {
             .send(data)
             .then(res => {
                 let response_text;
-                console.log(res.body && res.body.choices);
-                if (res.body) {
+                if (res.body && res.body.choices) {
                     let response = res.body;
                     response_text = AkUtil.get(response, "choices.0.message.content");
 
@@ -145,7 +144,7 @@ class ChatGPT extends React.Component<ChatGPTProps, ChatGPTStates> {
         const { AkRadioGroup, AkRadio, AkTextArea, AkButton, AkSpin } = common;
         let keys = Object.keys(PROMPT_DICT);
         const { response, prompt, loading } = this.state;
-        
+
         return <div>
             <div style={STYLE_DESC}>Start dialog with ChatGPT with preset prompts, and only 10 rounds of dialogues are saved currently.</div>
             <AkSpin spinning={loading}>
@@ -166,7 +165,7 @@ class ChatGPT extends React.Component<ChatGPTProps, ChatGPTStates> {
 
 export class CodeInApplication implements CodeInComp {
     render(context: CodeInContext, fieldsValues: any, readonly: boolean) {
-        return <ChatGPT context={context} apiKey={context.params["openai_apikey"]}/>;
+        return <ChatGPT context={context} apiKey={context.params["openai_apikey"]} />;
     }
 
     requiredFields() {
