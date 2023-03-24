@@ -133,6 +133,7 @@ class ChatGPT extends React.Component<ChatGPTProps, ChatGPTStates> {
             });
     }
 
+    
 
     render() {
         const { context, apiKey } = this.props;
@@ -142,10 +143,18 @@ class ChatGPT extends React.Component<ChatGPTProps, ChatGPTStates> {
         }
 
         const common = context.modules[MODULE_COMMON]
-        const { AkRadioGroup, AkRadio, AkTextArea, AkButton, AkSpin } = common;
+        const { AkUtil, AkRadioGroup, AkRadio, AkTextArea, AkButton, AkSpin, AkIcon, AkMessage } = common;
         let keys = Object.keys(PROMPT_DICT);
         const { response, prompt, loading } = this.state;
-        
+
+        const onCopy = ()=> {
+            AkUtil.copyToClipboard(response).then(rs => {
+                if (rs) {
+                    AkMessage.success("Response copied to clipboard.");
+                }
+            }); 
+        }
+
         return <div>
             <div style={STYLE_DESC}>Start dialog with ChatGPT with preset prompts, and only 10 rounds of dialogues are saved currently.</div>
             <AkSpin spinning={loading}>
@@ -156,7 +165,7 @@ class ChatGPT extends React.Component<ChatGPTProps, ChatGPTStates> {
                 <div style={STYLE_FIELD}>Message</div>
                 <AkTextArea onChange={e => this.user_message = e.target.value}></AkTextArea>
                 <AkButton type="primary" style={{ marginTop: 10 }} className="ak-base-btn main-btn-bg" onClick={() => this.chat()}>Submit</AkButton>
-                <div style={STYLE_FIELD}>Response</div>
+                <div style={STYLE_FIELD}>Response <AkIcon onClick={onCopy} type='fa-regular fa-copy' /></div>
                 <pre>{response}</pre>
             </AkSpin>
         </div>
@@ -166,7 +175,7 @@ class ChatGPT extends React.Component<ChatGPTProps, ChatGPTStates> {
 
 export class CodeInApplication implements CodeInComp {
     render(context: CodeInContext, fieldsValues: any, readonly: boolean) {
-        return <ChatGPT context={context} apiKey={context.params["openai_apikey"]}/>;
+        return <ChatGPT context={context} apiKey={context.params["openai_apikey"]} />;
     }
 
     requiredFields() {
