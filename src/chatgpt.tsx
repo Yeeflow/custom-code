@@ -19,6 +19,11 @@ const PROMPT_DICT = {
     "Python": "I want you to act as a software developer. I will provide some specific information about the requirements, and it will be your job to come up with code and explanation with Python.",
 }
 
+interface Message {
+    role: string;
+    content: string;
+}
+
 interface ChatGPTProps {
     context: CodeInContext;
     apiKey: string;
@@ -30,11 +35,11 @@ interface ChatGPTStates {
     loading?: boolean;
 }
 
-const history = {};
+const history: { [prompt: string]: Message[][] } = {};
 
-function fetch_history(prompt) {
+function fetchHistory(prompt: string): Message[][] {
     return history[prompt] || [];
-};
+}
 
 class ChatGPT extends React.Component<ChatGPTProps, ChatGPTStates> {
 
@@ -51,21 +56,31 @@ class ChatGPT extends React.Component<ChatGPTProps, ChatGPTStates> {
         this.setState({ loading: v });
     }
 
+    //  The `chat()` function initiates the chat process between the user and the assistant 
     chat() {
+        // Check if the process started already or not, and return early if it has.
         if (this.loading)
             return;
 
-        this.setLoading(true);
+        this.setLoading(true); // Turn on the loading process indicator.
 
+        // Extract the `context` and `apiKey` values from the `props`.
         const { context, apiKey } = this.props;
+
+        // Using the `context` get the necessary modules for the chat.
         const request = context.modules[MODULE_REQUEST];
         const common = context.modules[MODULE_COMMON]
         const { AkUtil } = common;
+
+        // Get the prompt from the state.
         const { prompt } = this.state;
-        let messages = fetch_history(prompt).slice(-HISTORY_LIMIT);
 
-        let system_messages = [];
+        // Fetch last few messages from history filtered by the prompt category.
+        let messages = fetchHistory(prompt).slice(-HISTORY_LIMIT);
 
+        let system_messages = []; // Create an empty array to add system messages in. 
+
+        // Look up the predefined message of the provided `prompt`, if there is one; then add it as the first system message
         const p = PROMPT_DICT[prompt];
         if (p) {
             system_messages.push({
@@ -74,6 +89,7 @@ class ChatGPT extends React.Component<ChatGPTProps, ChatGPTStates> {
             });
         }
 
+        // Append each message from history to the `system_messages` array with appropriate categorization using a loop.
         for (let message of messages) {
             system_messages.push({
                 "role": "user",
@@ -84,26 +100,30 @@ class ChatGPT extends React.Component<ChatGPTProps, ChatGPTStates> {
             });
         }
 
+        // Add the current message to the array after the previous messages.
         let messages_to_api = system_messages.concat([{
             "role": "user",
             "content": this.user_message
         }]);
 
+        // Define the API endpoint and the headers needed by it.
         const addr = 'https://api.openai.com/v1/chat/completions';
         const headers = {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`
+            'Authorization': `Bearer ${apiKey}` // Add apiKey string to the header's authorization field.
         };
+
+        // The data object needed in the POST request with necessary parameters.
         const data = {
             model: MODEL_NAME,
             messages: messages_to_api
         };
 
-
-        request
-            .post(addr)
+        // Make an HTTP POST request using the `addr`, `headers`, and `data` values extracted above
+        request.post(addr)
             .set(headers)
             .send(data)
+            // Handle the response data and store it.
             .then(res => {
                 let response_text;
                 if (res.body && res.body.choices) {
@@ -111,34 +131,40 @@ class ChatGPT extends React.Component<ChatGPTProps, ChatGPTStates> {
                     response_text = AkUtil.get(response, "choices.0.message.content");
 
                     if (response_text) {
+                        // Clean up the response text to remove any extraneous whitespace
                         response_text = response_text.trim();
 
+                        // Append this successful chat message to history for the current user prompt.
                         history[prompt] = messages.concat([
                             [this.user_message, response_text]
                         ]);
                     } else {
-                        // If the model returns empty response
+                        // If an empty response is returned, provide a clarifying statement as the response.
                         response_text = "Sorry, I didn't understand. Could you please rephrase?";
                     }
                 } else {
+                    // Respond with an error message if something goes wrong with the server.
                     response_text = "Server not responding, try again later.";
                 }
-                this.setLoading(false);
-                this.setState({ response: response_text });
+
+                this.setLoading(false); // Turn off the loading process indicator.
+                this.setState({ response: response_text }); // Set the state of this component's response field with the actual response we computed earlier.
             })
             .catch(err => {
-                console.error(err); // Handle error here
-                this.setLoading(false);
+                console.error(err); // Log any errors thrown in the HTTP POST request.
+                this.setLoading(false); // Turn off the loading process indicator.
             });
     }
 
-    
+
+
 
     render() {
         const { context, apiKey } = this.props;
 
         if (!apiKey) {
-            return <div style={STYLE_DESC}>Please configure API key in param.  You can obtain secret key from <a href="https://platform.openai.com/account/api-keys">OpenAI</a></div>
+            return <div style={STYLE_DESC}>Please configure API key in param.  You can obtain secret key from{" "}
+                <a href="https://platform.openai.com/account/api-keys">OpenAI</a></div>
         }
 
         const common = context.modules[MODULE_COMMON]
@@ -146,12 +172,12 @@ class ChatGPT extends React.Component<ChatGPTProps, ChatGPTStates> {
         let keys = Object.keys(PROMPT_DICT);
         const { response, prompt, loading } = this.state;
 
-        const onCopy = ()=> {
+        const onCopy = () => {
             AkUtil.copyToClipboard(response).then(rs => {
                 if (rs) {
                     AkMessage.success("Response copied to clipboard.");
                 }
-            }); 
+            });
         }
 
         return <div>
