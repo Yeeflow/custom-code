@@ -9,6 +9,7 @@ import { MODULE_COMMON, MODULE_REQUEST } from "./constants";
 // const FIELD_OPTION = "selectedOption";
 const HISTORY_LIMIT = 10;
 const MODEL_NAME = "gpt-3.5-turbo";
+const PROMPT_CUSTOM = "Custom";
 
 
 const PROMPT_DICT = {
@@ -17,6 +18,7 @@ const PROMPT_DICT = {
     "React": "I want you to act as a software developer. I will provide some specific information about a web app requirements, and it will be your job to come up with an architecture and code for developing secure app with React.",
     "Regex": "I want you to act as a regex generator. Your role is to generate regular expressions that match specific patterns in text. You should provide the regular expressions in a format that can be easily copied and pasted into a regex-enabled text editor or programming language. Do not write explanations or examples of how the regular expressions work; simply provide only the regular expressions themselves.",
     "Python": "I want you to act as a software developer. I will provide some specific information about the requirements, and it will be your job to come up with code and explanation with Python.",
+    [PROMPT_CUSTOM]: "",
 }
 
 interface Message {
@@ -45,6 +47,8 @@ class ChatGPT extends React.Component<ChatGPTProps, ChatGPTStates> {
 
     loading;
     user_message;
+    custom_prompt;
+
     constructor(props, context) {
         super(props, context);
         this.state = { prompt: Object.keys(PROMPT_DICT)[0], loading: false }
@@ -81,7 +85,12 @@ class ChatGPT extends React.Component<ChatGPTProps, ChatGPTStates> {
         let system_messages = []; // Create an empty array to add system messages in. 
 
         // Look up the predefined message of the provided `prompt`, if there is one; then add it as the first system message
-        const p = PROMPT_DICT[prompt];
+        let p = PROMPT_DICT[prompt];
+
+        if (prompt === PROMPT_CUSTOM) {
+            p = this.custom_prompt;
+        }
+
         if (p) {
             system_messages.push({
                 "role": "system",
@@ -187,6 +196,7 @@ class ChatGPT extends React.Component<ChatGPTProps, ChatGPTStates> {
                     {keys.map(k => <AkRadio key={k}
                         value={k}>{k}</AkRadio>)}
                 </AkRadioGroup></div>
+                {prompt === PROMPT_CUSTOM && <AkTextArea placeholder="Custom prompt" onChange={e => this.custom_prompt = e.target.value}></AkTextArea>}
                 <div style={STYLE_FIELD}>Message</div>
                 <AkTextArea onChange={e => this.user_message = e.target.value}></AkTextArea>
                 <AkButton type="primary" style={{ marginTop: 10 }} className="ak-base-btn main-btn-bg" onClick={() => this.chat()}>Submit</AkButton>
@@ -212,7 +222,7 @@ export class CodeInApplication implements CodeInComp {
     }
 
     description() {
-        return "ChatGPT 预设Prompts";
+        return "ChatGPT preset Prompts";
     }
 
     inputParameters() {
