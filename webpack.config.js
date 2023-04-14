@@ -19,7 +19,8 @@ module.exports = {
         filterSample: "./src/filterSample.tsx",
         addSeqNoToSubList: "./src/addSeqNoToSubList.tsx",
         modalDialogIframe: "./src/modalDialogIframe.tsx",
-        chatGPT: "./src/chatgpt.tsx"
+        chatGPT: "./src/chatgpt.tsx",
+        deleteListRow: "./src/deleteListRow.tsx"
     },
     devtool: "none",
     output: {
