@@ -20,11 +20,6 @@ interface CodeInComp {
     requiredModules?: (params: CodeInParams) => string[];
 
     /**
-     * Event to notify custom page to calculate height for Page Widget with auto height setting
-     */
-    onLoaded?: () => void;
-
-    /**
      * return description of the custom code
      */
     description?: () => string;
