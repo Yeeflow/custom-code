@@ -16,7 +16,9 @@ export class CodeInApplication implements CodeInComp {
                 title: "Script sample",
                 content: params["content"],
                 onOk: () => {
-                    context.setFieldValue(fieldId, !fieldsValues[fieldId]);
+                    let obj = {};
+                    obj[fieldId] = !fieldsValues[fieldId];
+                    context.setFieldsValue(obj);
                     resolve(true);
                 },
                 onCancel: () => {
