@@ -1,4 +1,4 @@
-import { MODULE_COMMON } from "./constants";
+import { LIST_ROW_DELETE, MODULE_COMMON } from "./constants";
 
 export const buildTh = (context, columns: ColumnDef[]) => {
     return "<tr>" + columns.reduce((pre, cur) => {
@@ -7,7 +7,7 @@ export const buildTh = (context, columns: ColumnDef[]) => {
 }
 
 const formatCell = (context, data: any, def: ColumnDef) => {
-    
+
     if (def.formater) {
         return def.formater(data, def);
     }
@@ -27,11 +27,16 @@ const formatCell = (context, data: any, def: ColumnDef) => {
 }
 
 export const buildTd = (context, data: any[], columns: ColumnDef[]) => {
+    let rs = "";
     if (data && data.length) {
-        return data.reduce((pred, d) => {
-            return `${pred}<tr>${columns.reduce((pre, cur) => {
-                return `${pre}<td>${formatCell(context, d, cur)}</td>`
-            }, "")}</tr>`
-        }, "");
+        for (var i = 0; i < data.length; i++) {
+            const row = data[i];
+            if (!row[LIST_ROW_DELETE]) {
+                rs += `<tr>${columns.reduce((pre, cur) => {
+                    return `${pre}<td>${formatCell(context, row, cur)}</td>`
+                }, "")}</tr>`
+            }
+        }
     }
+    return rs;
 }

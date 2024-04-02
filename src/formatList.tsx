@@ -15,11 +15,12 @@ const DEF_TABLE: ColumnDef[] = [
 
 export class CodeInApplication implements CodeInComp {
     execute(context: CodeInContext, fieldsValues: any) {
+        console.log("format Sub list to a table");
         var table = "<style>table.my, .my th, .my td {border:1px solid red; font-size: 16px}</style><table class='my'>" + buildTh(context, DEF_TABLE);
 
         var l = fieldsValues["list"];
         table += buildTd(context, l, DEF_TABLE);
-        context.setFieldValue("formated", table + "</table>");
+        context.setFieldValue("formatted", table + "</table>");
     }
 
     requiredFields() {
