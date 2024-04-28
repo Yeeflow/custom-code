@@ -4,7 +4,7 @@ const ROOT_PATH = path.resolve(__dirname);
 const BUILD_PATH = path.resolve(ROOT_PATH, 'dist');
 
 module.exports = {
-    mode:"production", //"production", "development"
+    mode: "production", //"production", "development"
     entry: {
         codeInSample: './src/codeInSample.tsx',
         codeInExecute: './src/codeInExecute.tsx',
@@ -20,7 +20,8 @@ module.exports = {
         addSeqNoToSubList: "./src/addSeqNoToSubList.tsx",
         modalDialogIframe: "./src/modalDialogIframe.tsx",
         chatGPT: "./src/chatgpt.tsx",
-        deleteListRow: "./src/deleteListRow.tsx"
+        deleteListRow: "./src/deleteListRow.tsx",
+        unsetFieldsInSublist: "./src/unsetFieldsInSublist.tsx"
     },
     devtool: "none",
     output: {
