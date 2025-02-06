@@ -21,7 +21,10 @@ module.exports = {
         modalDialogIframe: "./src/modalDialogIframe.tsx",
         chatGPT: "./src/chatgpt.tsx",
         deleteListRow: "./src/deleteListRow.tsx",
-        unsetFieldsInSublist: "./src/unsetFieldInSublist.tsx"
+        unsetFieldsInSublist: "./src/unsetFieldInSublist.tsx",
+        initByQueryString: "./src/initByQueryString.tsx",
+        fileUpload: "./src/fileUpload.tsx",
+        reload: "./src/reload.ts"
     },
     devtool: "none",
     output: {
