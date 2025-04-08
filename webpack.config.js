@@ -24,7 +24,8 @@ module.exports = {
         unsetFieldsInSublist: "./src/unsetFieldInSublist.tsx",
         initByQueryString: "./src/initByQueryString.tsx",
         fileUpload: "./src/fileUpload.tsx",
-        reload: "./src/reload.ts"
+        reload: "./src/reload.ts",
+        readImgExt: "./src/readImgExt.tsx",
     },
     devtool: "none",
     output: {
