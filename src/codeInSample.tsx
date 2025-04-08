@@ -19,7 +19,6 @@ interface ChartSampleProps {
 
 interface ChartSampleStates {
     loaded?: boolean;
-    data?: any[];
 }
 
 class ChartSample extends React.Component<ChartSampleProps, ChartSampleStates> {
@@ -27,7 +26,7 @@ class ChartSample extends React.Component<ChartSampleProps, ChartSampleStates> {
     ref;
     constructor(props, context) {
         super(props, context);
-        this.state = { data: data, loaded: false }
+        this.state = { loaded: false }
     }
 
 
