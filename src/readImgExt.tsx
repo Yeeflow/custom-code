@@ -15,6 +15,7 @@ interface ImgUploadSampleProps {
 interface ImgUploadSampleStates {
     loading?: boolean;
     gpsInfo?: GPSInfo;
+    msg?: string;
 }
 
 class ImgUploadSample extends React.Component<ImgUploadSampleProps, ImgUploadSampleStates> {
@@ -36,12 +37,12 @@ class ImgUploadSample extends React.Component<ImgUploadSampleProps, ImgUploadSam
 
     async beforeUpload(file) {
         return new Promise((resolve, reject) => {
-            const failed = () => {
+            const failed = (msg) => {
                 AkNotification.error({
                     message: "Tip",
                     description: "No GPS info found in the image!"
                 });
-                this.setState({ gpsInfo: null });
+                this.setState({ gpsInfo: null, msg });
                 this.onChange(null);
                 resolve(false);
             }
@@ -53,7 +54,7 @@ class ImgUploadSample extends React.Component<ImgUploadSampleProps, ImgUploadSam
             if (file) {
                 const EXIF = (window as any).EXIF;
                 if (!EXIF) {
-                    failed();
+                    failed("EXIF library not loaded!");
                     return;
                 }
 
@@ -65,6 +66,7 @@ class ImgUploadSample extends React.Component<ImgUploadSampleProps, ImgUploadSam
                         const d = this;
                         if (d) {
                             console.log("EXIF data: ", d);
+
                             const latitude = EXIF.getTag(d, 'GPSLatitude');
                             const latitudeRef = EXIF.getTag(d, 'GPSLatitudeRef');
                             const longitude = EXIF.getTag(d, 'GPSLongitude');
@@ -88,17 +90,17 @@ class ImgUploadSample extends React.Component<ImgUploadSampleProps, ImgUploadSam
                                     decimalLongitude = -decimalLongitude;
                                 }
 
-                                that.setState({ gpsInfo: { latitude: decimalLatitude, longitude: decimalLongitude } });
+                                that.setState({ gpsInfo: { latitude: decimalLatitude, longitude: decimalLongitude, }, msg: JSON.stringify(EXIF.getAllTags(d)) });
                                 resolve(true);
                                 return;
                             }
                         }
                     } catch (e) {
-                        failed();
+                        failed(JSON.stringify(e));
                     }
                 });
             } else {
-                failed();
+                failed("No file selected!");
             }
         });
     }
@@ -113,7 +115,7 @@ class ImgUploadSample extends React.Component<ImgUploadSampleProps, ImgUploadSam
         const { context } = this.props;
         const common = context.modules[MODULE_COMMON]
         const { AkSpin, AkUpload, FileUploadMethod, AkNotification, FileUpLoadCommon, AkButton } = common;
-        const { loading, gpsInfo } = this.state;
+        const { loading, gpsInfo, msg } = this.state;
 
 
 
@@ -144,6 +146,10 @@ class ImgUploadSample extends React.Component<ImgUploadSampleProps, ImgUploadSam
                 <div>Latitude: {gpsInfo.latitude}</div>
                 <div>Longitude: {gpsInfo.longitude}</div>
             </div> : <div>No GPS Info</div>}
+            <div>
+                <label>Messages:</label>
+                <div>{msg}</div>
+            </div>
         </AkSpin>
     }
 }
