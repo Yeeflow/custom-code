@@ -1,5 +1,5 @@
 import * as React from "react";
-import { MODULE_COMMON } from "./constants";
+import { CDN, MODULE_COMMON } from "./constants";
 
 interface GPSInfo {
     latitude: number;
@@ -29,8 +29,8 @@ class ImgUploadSample extends React.Component<ImgUploadSampleProps, ImgUploadSam
 
     componentWillMount() {
         const common = this.props.context.modules[MODULE_COMMON];
-        common.loadScript("https://cdn.jsdelivr.net/npm/exif-js", (err) => {
-            console.log("EXIF library loaded");
+        common.loadScript(CDN + "exif-reader.js", (err) => {
+            console.log("ExifReader library loaded");
             this.setState({ loading: false });
         });
     }
@@ -50,9 +50,9 @@ class ImgUploadSample extends React.Component<ImgUploadSampleProps, ImgUploadSam
 
             const { context } = this.props;
             const common = context.modules[MODULE_COMMON];
-            const { AkNotification } = common;
+            const { AkNotification, AkUtil } = common;
             if (file) {
-                const EXIF = (window as any).EXIF;
+                const EXIF = (window as any).ExifReader;
                 if (!EXIF) {
                     failed("EXIF library not loaded!");
                     return;
@@ -60,45 +60,30 @@ class ImgUploadSample extends React.Component<ImgUploadSampleProps, ImgUploadSam
 
                 const that = this;
 
+                EXIF.load(file).then(tags => {
+                    console.log("EXIF data: ", tags);
 
-                EXIF.getData(file, function (this) {
-                    try {
-                        const d = this;
-                        if (d) {
-                            console.log("EXIF data: ", d);
+                    let latitude = AkUtil.get(tags, 'GPSLatitude.description');
+                    const latitudeRef = AkUtil.get(tags, 'GPSLatitudeRef.value.0');
+                    let longitude = AkUtil.get(tags, 'GPSLongitude.description');
+                    const longitudeRef = AkUtil.get(tags, 'GPSLongitudeRef.value.0');
+                    if (latitude && longitude && latitudeRef && longitudeRef) {
 
-                            const latitude = EXIF.getTag(d, 'GPSLatitude');
-                            const latitudeRef = EXIF.getTag(d, 'GPSLatitudeRef');
-                            const longitude = EXIF.getTag(d, 'GPSLongitude');
-                            const longitudeRef = EXIF.getTag(d, 'GPSLongitudeRef');
-
-                            if (latitude && longitude && latitudeRef && longitudeRef) {
-                                const latDegrees = latitude[0];
-                                const latMinutes = latitude[1];
-                                const latSeconds = latitude[2];
-                                const lngDegrees = longitude[0];
-                                const lngMinutes = longitude[1];
-                                const lngSeconds = longitude[2];
-
-                                let decimalLatitude = latDegrees + latMinutes / 60 + latSeconds / 3600;
-                                let decimalLongitude = lngDegrees + lngMinutes / 60 + lngSeconds / 3600;
-
-                                if (latitudeRef === 'S') {
-                                    decimalLatitude = -decimalLatitude;
-                                }
-                                if (longitudeRef === 'W') {
-                                    decimalLongitude = -decimalLongitude;
-                                }
-
-                                that.setState({ gpsInfo: { latitude: decimalLatitude, longitude: decimalLongitude, }, msg: JSON.stringify(EXIF.getAllTags(d)) });
-                                resolve(true);
-                                return;
-                            }
+                        if (latitudeRef === 'S') {
+                            latitude = -latitude;
                         }
-                    } catch (e) {
-                        failed(JSON.stringify(e));
+                        if (longitudeRef === 'W') {
+                            longitude = -longitude;
+                        }
+
+                        that.setState({ gpsInfo: { latitude, longitude }});
+                        resolve(true);
+                        return;
                     }
+                }).catch((e) => {
+                    failed(e.message);
                 });
+
             } else {
                 failed("No file selected!");
             }
@@ -134,8 +119,9 @@ class ImgUploadSample extends React.Component<ImgUploadSampleProps, ImgUploadSam
             });
         }
 
+        //Do not set accept="image/*" in AkUpload, it will cause the GPS values removed in Android
         return <AkSpin spinning={loading} style={{ width: "100%", height: "100%" }}>
-            <AkUpload accept="image/*" showUploadList={false} listType="picture"
+            <AkUpload showUploadList={false} listType="picture"
                 beforeUpload={this.beforeUpload.bind(this)}
                 customRequest={customRequest}
                 multiple={false}>
