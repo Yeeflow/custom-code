@@ -26,6 +26,8 @@ module.exports = {
         fileUpload: "./src/fileUpload.tsx",
         reload: "./src/reload.ts",
         readImgExt: "./src/readImgExt.tsx",
+        googleMapPos: "./src/googleMapPos.tsx",
+        googleMap: "./src/googleMap.tsx"
     },
     devtool: "none",
     output: {

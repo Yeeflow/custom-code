@@ -21,15 +21,19 @@ export class CodeInApplication implements CodeInComp {
             id: "snField",
             type: "string",
             desc: "Field ID of Sub List to store sequence number."
+        }, {
+            id: "startFromVar",
+            type: "string",
+            desc: "Variable ID to store the start number of sequence number."
         }] as InputParameter[];
     }
 
     requiredFields(params) {
-        return [params["listId"]];
+        return [params["listId"], params["startFromVar"]];
     }
 
     render(context: CodeInContext, fieldsValues: any, readonly: boolean) {
-        return <ListChangeComp data={fieldsValues[context.params["listId"]]} context={context} readonly={readonly} />;
+        return <ListChangeComp data={fieldsValues[context.params["listId"]]} startNo={fieldsValues[context.params["startFromVar"]]} context={context} readonly={readonly} />;
     }
 }
 
@@ -38,6 +42,7 @@ interface ListChangeCompProps {
     data: any[];
     context: CodeInContext;
     readonly: boolean;
+    startNo?: number;
 }
 export class ListChangeComp extends React.Component<ListChangeCompProps, any> {
 
@@ -50,13 +55,20 @@ export class ListChangeComp extends React.Component<ListChangeCompProps, any> {
     }
 
     process(props: ListChangeCompProps) {
-        const { context, readonly, data } = props;
+        const { context, readonly, data, startNo } = props;
         if (readonly)
             return;
 
+
         if (data && data.length) {
             const { params } = context;
+
             let idx = 1;
+
+            if (startNo !== null && startNo !== undefined && !isNaN(startNo)) {
+                idx = startNo;
+            }
+
             let changed = false;
             data.forEach((d, i) => {
                 if (d && !d[LIST_ROW_DELETE]) {
@@ -73,6 +85,10 @@ export class ListChangeComp extends React.Component<ListChangeCompProps, any> {
 
     componentWillReceiveProps(nextProps: ListChangeCompProps) {
         if ("data" in nextProps && nextProps.data !== this.props.data && nextProps.data !== this.cache) {
+            this.process(nextProps);
+        }
+
+        if ("startNo" in nextProps && nextProps.startNo !== this.props.startNo) {
             this.process(nextProps);
         }
     }
