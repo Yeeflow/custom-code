@@ -3,7 +3,7 @@
  */
 
 import * as React from "react";
-import { MODULE_BIZCHARTS, MODULE_COMMON, MODULE_REQUEST } from "./constants";
+import { MODULE_COMMON, MODULE_REQUEST } from "./constants";
 
 
 interface ChartSampleProps {

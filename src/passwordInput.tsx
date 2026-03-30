@@ -1,5 +1,5 @@
 import * as React from "react";
-import { MODULE_BIZCHARTS, MODULE_COMMON, MODULE_MOMENT } from "./constants";
+import { MODULE_MOMENT } from "./constants";
 
 
 export class CodeInApplication implements CodeInComp {
@@ -13,6 +13,6 @@ export class CodeInApplication implements CodeInComp {
     }
 
     requiredModules() {
-        return [MODULE_BIZCHARTS, MODULE_MOMENT];
+        return [MODULE_MOMENT];
     }
 }

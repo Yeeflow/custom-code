@@ -1,6 +1,5 @@
 import * as React from "react";
-import { FILTER_VAR_PREFIX, MODULE_BIZCHARTS, MODULE_COMMON, MODULE_MOMENT } from "./constants";
-import * as ReactDOM from 'react-dom';
+import { FILTER_VAR_PREFIX, MODULE_COMMON } from "./constants";
 
 
 interface FilterSampleProps {

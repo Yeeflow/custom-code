@@ -1,6 +1,6 @@
 import * as React from "react";
-import { MODULE_BIZCHARTS, MODULE_COMMON, MODULE_MOMENT } from "./constants";
 import * as ReactDOM from 'react-dom';
+import { MODULE_COMMON } from "./constants";
 
 
 interface ChartSampleProps {

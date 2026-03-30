@@ -21,7 +21,7 @@ To create your custom code script, you need to implement CodeInComp interface.  
 - `render` is how to render your component
 - `execute` is what to do when action performed
 - `requiredFields` returns an array of field ids.  These fields and values will be passed by fieldsValues parameter. Re-render will be triggered if any changes to the registered fields.
-- `requiredModules` returns an array of module names.  Currently, we support `['moment', 'bizcharts']` [moment](https://momentjs.com/) [bizcharts](https://bizcharts.net/)
+- `requiredModules` returns an array of module names.  Currently, we support `['moment']` [moment](https://momentjs.com/)
 - `onLoaded` Event to notify custom page to calculate height for Page Widget with auto height setting
 
 ```
