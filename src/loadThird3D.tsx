@@ -120,7 +120,7 @@ class Third3DDemo extends React.Component<Third3DDemoProps, Third3DDemoDemoState
             //
 
             var geometry = new THREE.BufferGeometry();
-            var vertices = [];
+            var vertices: any[] = [];
 
             for (var i = 0; i < 10000; i++) {
 

@@ -42,7 +42,7 @@ class ImgUploadSample extends React.Component<ImgUploadSampleProps, ImgUploadSam
                     message: "Tip",
                     description: "No GPS info found in the image!"
                 });
-                this.setState({ gpsInfo: null, msg });
+                this.setState({ gpsInfo: undefined, msg });
                 this.onChange(null);
                 resolve(false);
             }

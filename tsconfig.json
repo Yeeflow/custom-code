@@ -1,25 +1,42 @@
 {
-    "compilerOptions": {
-        "moduleResolution": "node",
-        "module": "commonjs",
-        "target": "es5",
-        "outDir": "lib",
-        "sourceMap": false,
-        "jsx": "react",
-        "allowJs": false,
-        "noImplicitThis": true,
-        "noImplicitAny": false,
-        "removeComments": true,
-        "skipDefaultLibCheck": true,
-        "declaration": true,
-        "skipLibCheck": true,
-        "downlevelIteration": true,
-        "lib": [
-            "es2015.promise", "dom", "es5", "scripthost",
-            "es2015.core",
-            "es2015.collection", "es2015.iterable"
-        ],
-        "allowSyntheticDefaultImports": true,
-        "experimentalDecorators": true
-    }
+  "compilerOptions": {
+    /* 核心编译选项 */
+    "target": "es5", // 从 es5 升级。Webpack 5 会负责语法降级，TS 目标设高可以生成更高效的代码
+    "module": "es2020", // 配合 Webpack 5 的 Tree Shaking，必须使用 ES 模块
+    "moduleResolution": "bundler", // TS 5.x+ 推荐。专为 Webpack/Vite 设计，比旧的 "node" 更精准
+    
+    /* 类型检查与标准库 */
+    "lib": [
+      "ES2022", // 包含最新的 JS 特性
+      "DOM", 
+      "DOM.Iterable"
+    ],
+    "jsx": "react", // 现代 React (17+) 推荐写法，不再需要在每个文件里 import React
+    
+    /* 路径与输出 */
+    "rootDir": "src",
+    "outDir": "lib",
+    "declaration": false,
+    "sourceMap": false, // 建议开启，方便在开发环境调试
+    "removeComments": true,
+    
+    "strict": false, 
+    "noImplicitThis": true,
+    "skipLibCheck": true, // 必测项，防止 node_modules 里的类型报错（解决你之前的 worker_threads 报错）
+    // "downlevelIteration": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true, // 必开。解决 CommonJS 和 ES 模块之间的引用兼容性
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    
+    /* 其他优化 */
+    "resolveJsonModule": true, // 允许 import .json 文件
+    "isolatedModules": true,    // Webpack 5 构建更安全
+    "ignoreDeprecations": "6.0" 
+  },
+  "exclude": [
+    "node_modules",
+    "lib",
+    "**/*.spec.ts"
+  ]
 }

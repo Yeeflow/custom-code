@@ -188,7 +188,7 @@ class MapSample extends React.Component<MapSampleProps, MapSampleStates> {
     prevMarkerId;
     prePos = { lat: 0, lng: 0 }
     unmounted = false;
-    prevMarkers = [];
+    prevMarkers: any[] = [];
 
     constructor(props, context) {
         super(props, context);
@@ -226,7 +226,7 @@ class MapSample extends React.Component<MapSampleProps, MapSampleStates> {
             ids.forEach(id => showDict[id] = true);
         }
 
-        let geoArr = [];
+        let geoArr: any[] = [];
 
         const setScale = (scale) => {
             if (this.prevMarkerEle) {

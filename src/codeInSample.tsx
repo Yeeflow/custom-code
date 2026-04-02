@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card } from 'antd';
 
 export class CodeInApplication implements CodeInComp {
   description() {
@@ -29,7 +28,7 @@ class Sample extends React.Component<any, any> {
 
     constructor(props, context) {
         super(props, context);
-        const initialAmount = props.codeInContext?.getFieldValue('amount') || 0;
+        const initialAmount = props.codeInContext.getFieldValue('amount') || 0;
         this.state = {
           amount: initialAmount,
           editing: false
@@ -48,18 +47,19 @@ class Sample extends React.Component<any, any> {
     handleSave = () => {
       const parsed = parseFloat(this.state.amount as any);
       const newAmount = isNaN(parsed) ? 0 : parsed;
-      this.props.codeInContext?.setFieldValue('amount', newAmount);      
+      this.props.codeInContext.setFieldValue('amount', newAmount);      
       this.setState({ editing: false });
     };
 
     handleCancel = () => {
-      this.setState({ editing: false, amount: this.props.codeInContext?.getFieldValue('amount') });
+      this.setState({ editing: false, amount: this.props.codeInContext.getFieldValue('amount') });
     };
 
     render() {
       const {codeInContext, readonly} = this.props;
       const { amount, editing } = this.state;
-      return <Card title={codeInContext.params["title"]} size="small">
+      return <div>
+        <h2>{codeInContext.params["title"]}</h2>
         <div style={{ marginBottom: 8 }}>
           Amount: {
             editing && !readonly ? (
@@ -85,6 +85,6 @@ class Sample extends React.Component<any, any> {
             )
           }
         </div>
-      </Card>
+      </div>
     }
 }

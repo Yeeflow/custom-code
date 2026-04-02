@@ -5,6 +5,7 @@ const BUILD_PATH = path.resolve(ROOT_PATH, 'dist');
 
 module.exports = {
     mode: "production", //"production", "development"
+    devtool: false,
     entry: {
         codeInSample: './src/codeInSample.tsx',
         codeInExecute: './src/codeInExecute.tsx',
@@ -29,10 +30,8 @@ module.exports = {
         googleMapPos: "./src/googleMapPos.tsx",
         googleMap: "./src/googleMap.tsx"
     },
-    devtool: "none",
     output: {
-        library: 'codeInModules',
-        libraryTarget: 'assign',
+        library: { name: 'codeInModules', type: 'assign' },
         path: BUILD_PATH,
         filename: '[name].js',
         chunkFilename: '[name].js'
@@ -46,7 +45,7 @@ module.exports = {
             test: /\.jsx|\.js$/,
             exclude: /node_modules/,
             loader: "babel-loader",
-            query: {
+            options: {
                 presets: ['env', 'react']
             }
         }]

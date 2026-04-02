@@ -10,10 +10,10 @@
     "devDependencies": {
         "@types/react": "15.6.2",
         "@types/react-dom": "0.14.23",
-        "ts-loader": "^4.1.0",
-        "typescript": "^2.9.2",
-        "webpack": "^4.1.1",
-        "webpack-cli": "^3.2.3"
+        "ts-loader": "^9.5.4",
+        "typescript": "^6.0.2",
+        "webpack": "^5.105.4",
+        "webpack-cli": "^7.0.2"
     },
     "scripts": {
         "compile": "webpack",

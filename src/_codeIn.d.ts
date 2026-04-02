@@ -38,7 +38,7 @@ interface CodeInContext {
     setFieldValue: (field: string, value: any) => void;
     /** Set field value in a batch */
     setFieldsValue: (object: { [key: string]: any }) => void;
-    formContext?: AkFCFormContext;
+    formContext: AkFCFormContext;
     params: CodeInParams;
 }
 
