@@ -1,6 +1,6 @@
 {
     "name": "custom-code",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Build your script for custom code control and action in Yeeflow",
     "private": true,
     "dependencies": {

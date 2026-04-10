@@ -29,16 +29,47 @@ interface CodeInComp {
     inputParameters?: () => InputParameter[];
 }
 
+/**
+ * Context interface for script execution.
+ * 1. For HTTP requests, use \`context.modules.request\` (which is a Superagent instance).
+ * 2. Use \`context.getFieldValue\` / \`context.setFieldsValue\` to interact with form data.
+ */
 interface CodeInContext {
-    /** Retrieve modules registered in requiredModules */
-    modules: any;
-    /** Get field value of a Form or List Item */
+    /** * Access to pre-registered external libraries.
+     * @property {any} request - A Superagent instance for making HTTP calls.
+     * @property {(src: string, cb?: () => void) => Promise<null>} loadScript - Load an external script by URL.
+     */
+    modules: {
+        request: any; // Superagent library instance. Example: context.modules.request.get(url).query(params).then(res => ...)
+        loadScript: (src: string, cb?: () => void) => Promise<null>; // Example: await context.modules.loadScript(src)
+        [key: string]: any;
+    };
+
+    /** Retrieves the current value of a specific field from a Form or List Item */
     getFieldValue: (field: string) => any;
-    /** Set field value of a Form or List Item */
+
+    /** Updates the value of a single field in a Form or List Item */
     setFieldValue: (field: string, value: any) => void;
-    /** Set field value in a batch */
+
+    /** Updates multiple fields simultaneously using a key-value object */
     setFieldsValue: (object: { [key: string]: any }) => void;
-    formContext: AkFCFormContext;
+
+    /** Retrieves the value of a filter variable */
+    getFilterVar: (varId: string) => any;
+
+    /** Sets the value of a filter variable */
+    setFilterVar: (varId: string, value: any) => void;
+
+    /** Retrieves a runtime temporary variable */
+    getTempVar: (varId: string) => any;
+
+    /** Sets a runtime temporary variable for cross-script data sharing */
+    setTempVar: (varId: string, value: any) => void;
+
+    /** Raw form context object (optional) */
+    formContext?: AkFCFormContext;
+
+    /** Additional parameters passed to the script execution */
     params: CodeInParams;
 }
 
@@ -89,21 +120,9 @@ interface FastFormContext {
     renderFormItem(key: string, fieldName: string, options: FormItemOptions): (node: React.ReactNode) => React.ReactNode;
 }
 
-
-interface Request {
-    /** HTTP GET Method  */
-    get(url: string, data?: any, emptyData?: any);
-    /** HTTP POST Method  */
-    post(url: string, data?: any, emptyData?: any);
-    /** HTTP DELETE Method  */
-    del(url: string, data?: any, emptyData?: any);
-    /** HTTP PUT Method  */
-    put(url: string, data?: any, emptyData?: any);
-}
-
 interface InputParameter {
     id: string;
-    type?: "string" | "number";
+    type?: "string" | "number" | "variable";
     desc?: string;
 }
 
